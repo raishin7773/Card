@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/layout :: layout(~{::style},~{::body/content()})}">
+<head>
+    <title>カード検索</title>
+    <style></style>
+
+</head>
+<body class="skin-blue layout-top-nav">
+<div class="wrapper">
+    <div class="content-wrapper">
+        <section class="content">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">検索条件</h3>
+                </div>
+                <form action="#" th:action="@{/card/search}">
+                    <div class="box-body">
+                        <div class="form-group col-lg-6">
+                            <label>カード名</label>
+                            <input type="text" class="form-control" name="name" placeholder="カード名">
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <label>種別</label>
+                            <select class="form-control" name="type">
+                                <option></option>
+                                <option th:value="1">モンスター</option>
+                                <option th:value="2">魔法</option>
+                                <option th:value="3">罠</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-lg-4">
+                            <label>攻撃力</label>
+                            <input type="number" class="form-control" name="atk">
+                        </div>
+                        <div class="form-group col-lg-4">
+                            <label>守備力</label>
+                            <input type="number" class="form-control" name="def">
+                        </div>
+                        <div class="form-group col-lg-4">
+                            <label>攻守合計</label>
+                            <input type="number" class="form-control" name="sum">
+                        </div>
+                    </div>
+                    <div class="box-footer">
+                        <button type="submit" class="btn btn-primary">検索</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12" th:if="${searchForm.haveCardList()}">
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">検索結果</h3>
+<!--                            <div class="pull-right">-->
+<!--                                <a class="btn btn-danger" data-toggle="modal" data-target="#insertModal">新規登録</a>-->
+<!--                                <a th:href="@{/portfolio/deck/createPdf}" target="_blank"-->
+<!--                                   class="btn btn-primary">帳票出力</a>-->
+<!--                                <a th:href="@{/portfolio/deck/excel}" class="btn btn-primary">エクセル出力</a>-->
+<!--                            </div>-->
+                        </div>
+                        <div class="box-body">
+                            <table id="cardtable" class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <th>カード名</th>
+                                    <th>種類</th>
+                                    <th>攻撃力</th>
+                                    <th>守備力</th>
+                                </tr>
+                                <tr>
+                                    <th colspan="4">効果</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <div th:each="card : ${searchForm.cardList}">
+                                    <tr>
+                                        <td>
+                                            <p id="cardName" th:text="${card.name}" style="min-width: 100px;"></p>
+                                        </td>
+                                        <td>
+                                            <p id="cardType" th:text="${searchForm.getTypeString(card.type)}"/>
+                                        </td>
+                                        <td>
+                                            <p class="text-red" id="cardAtk" th:text="${searchForm.getAtk(card.type,card.atk)}"/>
+                                        </td>
+                                        <td>
+                                            <p class="text-yellow"  id="cardDef" th:text="${searchForm.getDef(card.type,card.def)}"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4">
+                                            <p class="text-aqua" id="cardDescription" th:text="${card.description}"/>
+                                        </td>
+                                    </tr>
+                                </div>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="box-footer">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="content container-fluid"></section>
+    </div>
+</div>
+<script src="/js/datas/index.js" th:src="@{/js/datas/index.js}"/>
+<script></script>
+</body>
+
+</html>

@@ -1,0 +1,24 @@
+spring:
+  datasource:
+    driverClassName: org.mariadb.jdbc.Driver
+    url: ${url}
+    username: ${username}
+    password: ${password}
+  jpa:
+    properties:
+      hibernate:
+        temp:
+          use_jdbc_metadata_defaults: false
+        dialect: org.hibernate.dialect.MariaDBDialect
+server:
+  port: 8080
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: DEBUG
+        type:
+          EnumType: TRACE
+          descriptor:
+            sql:
+              BasicBinder: TRACE
