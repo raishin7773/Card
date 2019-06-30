@@ -1,16 +1,16 @@
 package com.raishin.search.service
 
+import com.raishin.search.constants.Constants
+import com.raishin.search.domain.CardsDomain
 import com.raishin.search.emtity.DatasEntity
 import com.raishin.search.form.SearchForm
 import com.raishin.search.repository.DatasRepository
-import com.raishin.search.specification.SearchSpecification
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.lang.Nullable
+import org.springframework.cache.annotation.CacheEvict
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.util.*
-import au.com.console.jpaspecificationdsl.*
-import com.raishin.search.constants.Constants
 import javax.servlet.http.HttpSession
 
 
@@ -27,46 +27,21 @@ class SearchService {
     @Autowired
     lateinit var session: HttpSession
 
-    /**
-     * IDでカードを検索
-     * @return
-     */
-    fun findByID(id: Int): Optional<DatasEntity> {
-        return datasRepository.findById(id)
-    }
+    @Cacheable("SearchCache")
+    fun getCardDatas(): MutableList<DatasEntity> {
+        val start = System.currentTimeMillis()
 
-    /**
-     *
-     */
-    fun searchCards(form: SearchForm): List<DatasEntity> {
-        var cards = getCardDatas()
+        var cards = datasRepository.findAll()
 
-        cards = cards.filter { x -> x.alias == 0L}
-        if (form.name.isNotEmpty())
-            cards = cards.filter { x -> x.name.contains(form.name) }
-        if (form.getTypeList().isNotEmpty())
-            cards = cards.filter { x -> form.getTypeList().contains(x.type) }
-        if(form.atk != null)
-            cards = cards.filter { x -> x.atk == form.atk }.filter { x -> Constants.monsterList.contains(x.type)}
-        if(form.def != null)
-            cards = cards.filter { x -> x.def == form.def }.filter { x -> Constants.monsterList.contains(x.type)}
-        if(form.sum != null)
-            cards = cards.filter { x -> x.def + x.atk == form.sum }.filter { x -> Constants.monsterList.contains(x.type)}
-        if(cards.size > 100)
-            cards = cards.take(100)
-
+        // ログをだす
+        var end = System.currentTimeMillis();
+        var time = end - start;
+        println("cache is not used. exec time was : " + time + "ms")
 
         return cards
-
     }
 
-    fun getCardDatas(): List<DatasEntity> {
-        var cards = session.getAttribute("cards")
-        if (cards == null) {
-            cards = datasRepository.findAll()
-            session.setAttribute("cards", cards)
-        }
-        return cards as List<DatasEntity>
-    }
+    @CacheEvict("SearchCache")
+    fun deleteCache(){}
 
 }

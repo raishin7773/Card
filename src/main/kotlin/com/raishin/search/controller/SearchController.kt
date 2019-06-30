@@ -1,5 +1,6 @@
 package com.raishin.search.controller
 
+import com.raishin.search.domain.CardsDomain
 import com.raishin.search.form.SearchForm
 import com.raishin.search.service.SearchService
 import org.springframework.beans.factory.annotation.Autowired
@@ -20,9 +21,19 @@ class SearchController {
 
     @RequestMapping("/card/search")
     fun search(@ModelAttribute form: SearchForm): String {
-        form.cardList = seachService.searchCards(form)
+
+        var cards = seachService.getCardDatas()
+        form.cardList = CardsDomain(cards).searchCards(form)
         return "index"
     }
+
+    @RequestMapping("/card/deleteCache")
+    fun deleteCache(@ModelAttribute form: SearchForm): String {
+        seachService.deleteCache()
+        return "index"
+    }
+
+
 
 }
 
