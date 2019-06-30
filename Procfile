@@ -1,1 +1,1 @@
-web: java -jar build/libs/search-0.0.1-SNAPSHOT.jar
+web: java -Dserver.port=$PORT -jar target/*.jar --server.port=$PORT --spring.profiles.active=heroku
