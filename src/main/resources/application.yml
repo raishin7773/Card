@@ -26,3 +26,14 @@ logging:
           descriptor:
             sql:
               BasicBinder: TRACE
+management:
+  endpoints:
+    web:
+      exposure:
+        #使用可能エンドポイント
+        include: env,beans,loggers,metrics,health,prometheus
+  endpoint:
+    health:
+      #healthcheck詳細表示設定
+      show-details: always
+
