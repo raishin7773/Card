@@ -11,7 +11,7 @@ class SearchForm {
     var sum: Long? = null
     var cardList: List<DatasEntity> = mutableListOf()
 
-    public fun getTypeList(): List<Long> {
+    fun getTypeList(): List<Long> {
         if (type == 1L) {
             return Constants.monsterList
         }
@@ -24,7 +24,11 @@ class SearchForm {
         return mutableListOf()
     }
 
-    public fun getTypeString(type: Long): String {
+    fun getTypeValueList(): Map<String, Long> {
+        return mapOf("モンスター" to 1L, "魔法" to 2L, "罠" to 3L)
+    }
+
+    fun getTypeString(type: Long): String {
         if (Constants.monsterList.contains(type)) {
             return "モンスター"
         }
@@ -37,7 +41,7 @@ class SearchForm {
         return ""
     }
 
-    public fun getDef(type: Long, def: Long): String {
+    fun getDef(type: Long, def: Long): String {
         if (Constants.LINK_E_MONSTER == type ||
                 Constants.magicList.contains(type) ||
                 Constants.trapList.contains(type)) {
@@ -46,7 +50,7 @@ class SearchForm {
         return def.toString()
     }
 
-    public fun getAtk(type: Long, atk: Long): String {
+    fun getAtk(type: Long, atk: Long): String {
         if (Constants.magicList.contains(type) ||
                 Constants.trapList.contains(type)) {
             return "-"
@@ -54,7 +58,7 @@ class SearchForm {
         return atk.toString()
     }
 
-    public fun haveCardList(): Boolean {
+    fun haveCardList(): Boolean {
         if (cardList.isEmpty()) {
             return false
         }

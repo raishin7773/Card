@@ -26,19 +26,9 @@ class SearchController {
 
     @RequestMapping("/card/search")
     fun search(@ModelAttribute form: SearchForm): String {
-
-        var cards = seachService.getCardDatas()
-        form.cardList = CardsDomain(cards).searchCards(form)
+        var cards = seachService.getCardDatas(form)
+        form.cardList = CardsDomain.filterCards(cards)
         return "index"
     }
-
-    @RequestMapping("/card/deleteCache")
-    fun deleteCache(@ModelAttribute form: SearchForm): String {
-        seachService.deleteCache()
-        return "index"
-    }
-
-
-
 }
 
