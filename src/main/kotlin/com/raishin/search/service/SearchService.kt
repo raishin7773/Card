@@ -1,6 +1,6 @@
 package com.raishin.search.service
 
-import com.raishin.search.emtity.DatasEntity                            ø
+import com.raishin.search.emtity.DatasEntity
 import com.raishin.search.form.SearchForm
 import com.raishin.search.repository.CardSpecs
 import com.raishin.search.repository.DatasRepository
