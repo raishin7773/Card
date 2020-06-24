@@ -26,7 +26,9 @@ class SearchController {
 
     @RequestMapping("/card/search")
     fun search(@ModelAttribute form: SearchForm): String {
+        // カード検索
         var cards = seachService.getCardDatas(form)
+        // 表示上限数100で絞り込む
         form.cardList = CardsDomain.filterCards(cards)
         return "index"
     }
