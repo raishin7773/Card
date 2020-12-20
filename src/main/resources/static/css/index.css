@@ -6,6 +6,89 @@
     border-color: #3c8dbc;
 }
 
+.card_name {
+    font-size: 30px;
+}
+
+p.card_type {
+    font-size: 20px;
+    margin: 5px 0 !important;
+}
+.atkdef{
+    font-size: 20px;
+}
+
+#cardDef {
+    margin-bottom: 5px !important;
+}
+
 p {
     margin: 0 0 0px !important;
+}
+
+div.monster_box {
+    padding: 5px;
+    border: 1px dashed #000000 !important;
+}
+
+div.fujon_monster {
+    background-color: #ae81ff;
+}
+
+div.effect_monster {
+    background-color: #d9bb73;
+}
+
+div.synchro_monster {
+    background-color: #FFF9EE;
+}
+
+div.normal_monster {
+    background-color: #f7e1b5;
+}
+
+div.xyz_monster {
+    background-color: #333333;
+    color: #FFF9EE;
+}
+
+div.magic {
+    background-color: #00e765;
+}
+
+div.trap {
+    background-color: #ce8483;
+}
+
+div.link_monster {
+    background-color: #00c0ef;
+}
+
+div.token_monster {
+    background-color: #8B98AB;
+}
+
+div.gishki_monster {
+    background-color: #0b93d5;
+}
+
+div.penduram_monster {
+    background: linear-gradient(to bottom, #d9bb73 50%, #00e765 50%);
+}
+
+div.penduram_xyz_monster {
+    background: linear-gradient(to bottom, #333333 50%, #00e765 50%);
+    color: #FFF9EE;
+}
+
+div.penduram_synchro_monster {
+    background: linear-gradient(to bottom, #FFF9EE 50%, #00e765 50%);
+}
+
+div.penduram_fujon_monster {
+    background: linear-gradient(to bottom, #ae81ff 50%, #00e765 50%);
+}
+
+div.penduram_normal_monster {
+    background: linear-gradient(to bottom, #f7e1b5 50%, #00e765 50%);
 }

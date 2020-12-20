@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+<html xmlns:th="http://www.thymeleaf.org"
       th:replace="~{layout/layout :: layout(~{::style},~{::body/content()})}">
 <head>
     <title>カード検索</title>
@@ -55,45 +55,19 @@
                             <h3 class="box-title">検索結果</h3>
                         </div>
                         <div class="box-body">
-                            <table id="cardtable" class="table table-hover">
-                                <thead>
-                                <tr class="cell" style="background-color: #0b93d5">
-                                    <th>カード名</th>
-                                    <th>種類</th>
-                                    <th>攻撃力</th>
-                                    <th>守備力</th>
-                                </tr>
-                                <tr>
-                                    <th class="cell" colspan="4">効果</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <div th:each="card : ${searchForm.cardList}">
-                                    <tr>
-                                        <td class="cell">
-                                            <p id="cardName" th:text="${card.name}" style="min-width: 100px;"></p>
-                                        </td>
-                                        <td class="cell">
-                                            <p id="cardType" th:text="${searchForm.getTypeString(card.type)}"/>
-                                        </td>
-                                        <td class="cell">
-                                            <p class="text-red" id="cardAtk" th:text="${searchForm.getAtk(card.type,card.atk)}"/>
-                                        </td>
-                                        <td class="cell">
-                                            <p class="text-yellow"  id="cardDef" th:text="${searchForm.getDef(card.type,card.def)}"/>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="background-color: #b3d271" class="cell" colspan="4">
-                                            <p id="cardDescription" th:text="${card.description}"/>
-                                        </td>
-                                    </tr>
+                            <div th:each="card : ${searchForm.cardList}">
+                                <div th:class="'monster_box '+ ${searchForm.getClass(card.type)}">
+                                    <p class="card_name" th:text="${card.name}" style="min-width: 100px;"></p>
+                                    <p class="card_type" th:text="${searchForm.getCardTypeDetailName(card.type)}"/>
+                                    <div th:if="${searchForm.getTypeString(card.type) == 'モンスター'}">
+                                        <p class="atkdef" th:text="${'ATK/ ' + searchForm.getAtk(card.type,card.atk)}"/>
+                                        <p id="cardDef" class="atkdef" th:text="${'DEF/ ' + searchForm.getDef(card.type,card.def)}"/>
+                                    </div>
+                                    <p id="cardDescription" th:text="${card.description}"/>
                                 </div>
-                                </tbody>
-                            </table>
+                            </div>
                         </div>
                         <div class="box-footer">
-
                         </div>
                     </div>
                 </div>
