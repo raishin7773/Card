@@ -1,44 +1,52 @@
 package com.raishin.search.form
 
-import com.raishin.search.constants.Constants
+import com.raishin.search.constants.TypeConstants
 import com.raishin.search.emtity.DatasEntity
 
 class SearchForm {
     var name: String = ""
     var type: Long? = null
+    var typeDetail: Long? = null
     var atk: Long? = null
     var def: Long? = null
     var sum: Long? = null
+    var description: String = ""
     var cardList: List<DatasEntity> = mutableListOf()
 
     fun getTypeList(): List<Long> {
         if (type == 1L) {
-            return Constants.monsterList
+            return TypeConstants.monsterList
         }
         if (type == 2L) {
-            return Constants.magicList
+            return TypeConstants.magicList
         }
         if (type == 3L) {
-            return Constants.trapList
+            return TypeConstants.trapList
         }
         return mutableListOf()
     }
 
-    fun getTypeValueList(): Map<String, Long> {
+    fun getTypeMap(): Map<String, Long> {
         return mapOf("モンスター" to 1L, "魔法" to 2L, "罠" to 3L)
+    }
+
+    fun getTypeDetailMap(): Map<Long, String> {
+        val maps = mutableMapOf<Long, String>()
+        TypeConstants.values().forEach { maps[it.value] = it.displayName }
+        return maps
     }
 
     /**
      * カードカテゴリを取得する
      */
     fun getTypeString(type: Long): String {
-        if (Constants.monsterList.contains(type)) {
+        if (TypeConstants.monsterList.contains(type)) {
             return "モンスター"
         }
-        if (Constants.magicList.contains(type)) {
+        if (TypeConstants.magicList.contains(type)) {
             return "魔法"
         }
-        if (Constants.trapList.contains(type)) {
+        if (TypeConstants.trapList.contains(type)) {
             return "罠"
         }
         return ""
@@ -49,97 +57,57 @@ class SearchForm {
      * カードタイプの詳細表示名を取得する
      */
     fun getCardTypeDetailName(type: Long): String {
-        return when (type) {
-            Constants.EFFECT_MONSTER -> "効果モンスター"
-            Constants.EFFECT_REVERSE_MONSTER -> "効果モンスター：リバース"
-            Constants.EFFECT_DUAL_MONSTER -> "効果モンスター：デュアル"
-            Constants.EFFECT_UNION_MONSTER -> "効果モンスター：ユニオン"
-            Constants.EFFECT_UNION_TUNER_MONSTER -> "効果モンスター：ユニオン：チューナー"
-            Constants.EFFECT_SS_MONSTER -> "効果モンスター：特殊召喚（通常召喚不可）"
-            Constants.EFFECT_TUNER_SS_MONSTER -> "効果モンスター：チューナー：特殊召喚（通常召喚不可）"
-            Constants.SPIRIT_MONSTER -> "効果モンスター：スピリット"
-            Constants.EFFECT_TUNER_MONSTER -> "効果モンスター：チューナー"
-            Constants.GISHKI_EFFECT_MONSTER -> "儀式：効果モンスター"
-            Constants.GISHKI_NORMAL_MONSTER -> "儀式：通常モンスター"
-            Constants.TOKEN -> "トークン"
-            Constants.NORMAL_MONSTER -> "通常モンスター"
-            Constants.NORMAL_TUNER_MONSTER -> "通常モンスター：チューナー"
-            Constants.FUJON_NORMAL_MONSTER -> "融合：通常モンスター"
-            Constants.FUJON_E_MONSTER -> "融合：効果モンスター"
-            Constants.PENDURAM_MONSTER -> "ペンデュラム：効果モンスター"
-            Constants.PENDURAM_TUNER_MONSTER -> "ペンデュラム：効果モンスター：チューナー"
-            Constants.PENDURAM_SS_MONSTER -> "ペンデュラム：効果モンスター：特殊召喚（通常召喚不可）"
-            Constants.PENDURAM_NORMAL_MONSTER -> "ペンデュラム：通常モンスター"
-            Constants.PENDURAM_FUJON_MONSTER -> "ペンデュラム：融合：効果モンスター"
-            Constants.PENDURAM_XYZ_MONSTER -> "ペンデュラム：エクシーズ：効果モンスター"
-            Constants.PENDURAM_SYNCHRO_MONSTER -> "ペンデュラム：シンクロ：効果モンスター"
-            Constants.SYNCHRO_MONSTER -> "シンクロ：効果モンスター"
-            Constants.SYNCHRO_TUNER_MONSTER -> "シンクロ：効果モンスター：チューナー"
-            Constants.SYNCHRO_NORMAL_MONSTER -> "シンクロ：通常モンスター"
-            Constants.XYZ_MONSTER -> "エクシーズ：効果モンスター"
-            Constants.XYZ_NORMAL_MONSTER -> "エクシーズ：通常モンスター"
-            Constants.LINK_E_MONSTER -> "リンク：効果モンスター"
-            Constants.LINK_NORMAL_MONSTER -> "リンク：通常モンスター"
-            Constants.MAGIC -> "通常魔法"
-            Constants.GISHKI_MAGIC -> "儀式魔法"
-            Constants.SPEED_MAGIC -> "速攻魔法"
-            Constants.FOREVER_MAGIC -> "永続魔法"
-            Constants.EQUIP_MAGIC -> "装備魔法"
-            Constants.FIELD_MAGIC -> "フィールド魔法"
-            Constants.TRAP -> "通常罠"
-            Constants.FOREVER_TRAP -> "永続罠"
-            Constants.COUNTER_TRAP -> "カウンター罠"
-            else -> ""
-        }
+        val type = TypeConstants.fromValue(type)
+        return type?.displayName ?: ""
     }
 
     /**
      * カードタイプから付与したいクラス名を取得する
      */
     fun getClass(type: Long): String {
-        if (Constants.effectMonsterList.contains(type)) {
+        if (TypeConstants.effectMonsterList.contains(type)) {
             return "effect_monster"
         }
-        if (Constants.normalMonsterList.contains(type)) {
+        if (TypeConstants.normalMonsterList.contains(type)) {
             return "normal_monster"
         }
-        if (Constants.synchroMonsterList.contains(type)) {
+        if (TypeConstants.synchroMonsterList.contains(type)) {
             return "synchro_monster"
         }
-        if (Constants.xyzMonsterList.contains(type)) {
+        if (TypeConstants.xyzMonsterList.contains(type)) {
             return "xyz_monster"
         }
-        if (Constants.gishkiMonsterList.contains(type)) {
+        if (TypeConstants.gishkiMonsterList.contains(type)) {
             return "gishki_monster"
         }
-        if (Constants.fujonMonsterList.contains(type)) {
+        if (TypeConstants.fujonMonsterList.contains(type)) {
             return "fujon_monster"
         }
-        if (Constants.penduramMonsterList.contains(type)) {
+        if (TypeConstants.penduramMonsterList.contains(type)) {
             return "penduram_monster"
         }
-        if (Constants.linkMonsterList.contains(type)) {
+        if (TypeConstants.linkMonsterList.contains(type)) {
             return "link_monster"
         }
-        if (Constants.magicList.contains(type)) {
+        if (TypeConstants.magicList.contains(type)) {
             return "magic"
         }
-        if (Constants.trapList.contains(type)) {
+        if (TypeConstants.trapList.contains(type)) {
             return "trap"
         }
-        if (Constants.TOKEN == type) {
+        if (TypeConstants.TOKEN.value == type) {
             return "token_monster"
         }
-        if (Constants.PENDURAM_XYZ_MONSTER == type) {
+        if (TypeConstants.PENDURAM_XYZ_MONSTER.value == type) {
             return "penduram_xyz_monster"
         }
-        if (Constants.PENDURAM_SYNCHRO_MONSTER == type) {
+        if (TypeConstants.PENDURAM_SYNCHRO_MONSTER.value == type) {
             return "penduram_synchro_monster"
         }
-        if (Constants.PENDURAM_FUJON_MONSTER == type) {
+        if (TypeConstants.PENDURAM_FUJON_MONSTER.value == type) {
             return "penduram_fujon_monster"
         }
-        if (Constants.PENDURAM_NORMAL_MONSTER == type) {
+        if (TypeConstants.PENDURAM_NORMAL_MONSTER.value == type) {
             return "penduram_normal_monster"
         }
         return ""
@@ -149,10 +117,7 @@ class SearchForm {
      * 表示する守備力を取得
      */
     fun getDef(type: Long, def: Long): String {
-        if (Constants.LINK_E_MONSTER == type ||
-                Constants.magicList.contains(type) ||
-                Constants.trapList.contains(type) ||
-                def == -2L) {
+        if (def == -2L) {
             return "-"
         }
         return def.toString()
@@ -162,9 +127,7 @@ class SearchForm {
      * 表示する攻撃力を取得
      */
     fun getAtk(type: Long, atk: Long): String {
-        if (Constants.magicList.contains(type) ||
-                Constants.trapList.contains(type) ||
-                atk == -2L) {
+        if (atk == -2L) {
             return "-"
         }
         return atk.toString()
@@ -176,6 +139,4 @@ class SearchForm {
         }
         return true
     }
-
-
 }

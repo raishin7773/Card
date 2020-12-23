@@ -10,7 +10,7 @@ class CardSpecs {
     companion object {
         fun nameLike(name: String?): Specification<DatasEntity>? {
             // nullを返すとこの検索条件を無効にすることができる。
-            return if (name == null) null
+            return if (name.isNullOrBlank() == null) null
             else Specification { root: Root<DatasEntity>, criteriaQuery, criteriaBuilder ->
                 criteriaBuilder.like(root.get<String>("name"), "%$name%")
             }
@@ -40,11 +40,27 @@ class CardSpecs {
             }
         }
 
-        fun typeEquals(form: SearchForm): Specification<DatasEntity>? {
+        fun descriptionLike(description: String?): Specification<DatasEntity>? {
+            // nullを返すとこの検索条件を無効にすることができる。
+            return if (description.isNullOrBlank()) null
+            else Specification { root: Root<DatasEntity>, criteriaQuery, criteriaBuilder ->
+                criteriaBuilder.like(root.get<String>("description"), "%$description%")
+            }
+        }
+
+        fun typeIn(form: SearchForm): Specification<DatasEntity>? {
             // nullを返すとこの検索条件を無効にすることができる。
             return if (form.type == null) null
             else Specification { root: Root<DatasEntity>, criteriaQuery, criteriaBuilder ->
                 root.get<Long>("type").`in`(form.getTypeList())
+            }
+        }
+
+        fun typeEquals(typeDetail: Long?): Specification<DatasEntity>? {
+            // nullを返すとこの検索条件を無効にすることができる。
+            return if (typeDetail == null) null
+            else Specification { root: Root<DatasEntity>, criteriaQuery, criteriaBuilder ->
+                criteriaBuilder.equal(root.get<Long>("type"), typeDetail)
             }
         }
     }

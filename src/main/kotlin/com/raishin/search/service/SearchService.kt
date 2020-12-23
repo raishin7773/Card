@@ -27,7 +27,9 @@ class SearchService {
                         .and(CardSpecs.atkEquals(form.atk))
                         .and(CardSpecs.defEquals(form.def))
                         .and(CardSpecs.sumEquals(form.sum))
-                        .and(CardSpecs.typeEquals(form))
+                        .and(CardSpecs.typeEquals(form.typeDetail))
+                        .and(CardSpecs.descriptionLike(form.description))
+                        .and(CardSpecs.typeIn(form))
                 )
     }
 
