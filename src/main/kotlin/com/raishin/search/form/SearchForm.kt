@@ -1,5 +1,8 @@
 package com.raishin.search.form
 
+import com.raishin.search.constants.AttributeConstants
+import com.raishin.search.constants.LevelConstants
+import com.raishin.search.constants.RaceConstants
 import com.raishin.search.constants.TypeConstants
 import com.raishin.search.emtity.DatasEntity
 
@@ -10,6 +13,11 @@ class SearchForm {
     var atk: Long? = null
     var def: Long? = null
     var sum: Long? = null
+    var attribute: Long? = null
+    var race: Long? = null
+    var level: Long? = null
+    var levelFrom: Long? = null
+    var levelTo: Long? = null
     var description: String = ""
     var cardList: List<DatasEntity> = mutableListOf()
 
@@ -26,13 +34,71 @@ class SearchForm {
         return mutableListOf()
     }
 
+    fun getLevelDisplay(level: Long): Long? {
+        if (level <= 12) return level
+        return when {
+            level - LevelConstants.P1.value in 0..12 -> {
+                level - LevelConstants.P1.value
+            }
+            level - LevelConstants.P2.value in 0..12 -> {
+                level - LevelConstants.P2.value
+            }
+            level - LevelConstants.P3.value in 0..12 -> {
+                level - LevelConstants.P3.value
+            }
+            level - LevelConstants.P4.value in 0..12 -> {
+                level - LevelConstants.P4.value
+            }
+            level - LevelConstants.P5.value in 0..12 -> {
+                level - LevelConstants.P5.value
+            }
+            level - LevelConstants.P6.value in 0..12 -> {
+                level - LevelConstants.P6.value
+            }
+            level - LevelConstants.P7.value in 0..12 -> {
+                level - LevelConstants.P7.value
+            }
+            level - LevelConstants.P8.value in 0..12 -> {
+                level - LevelConstants.P8.value
+            }
+            level - LevelConstants.P9.value in 0..12 -> {
+                level - LevelConstants.P9.value
+            }
+            level - LevelConstants.P10.value in 0..12 -> {
+                level - LevelConstants.P10.value
+            }
+            level - LevelConstants.P11.value in 0..12 -> {
+                level - LevelConstants.P11.value
+            }
+            level - LevelConstants.P12.value in 0..12 -> {
+                level - LevelConstants.P12.value
+            }
+            else -> level
+        }
+    }
+
     fun getTypeMap(): Map<String, Long> {
         return mapOf("モンスター" to 1L, "魔法" to 2L, "罠" to 3L)
+    }
+
+    fun getAttributeMap(): Map<Long, String> {
+        val maps = mutableMapOf<Long, String>()
+        AttributeConstants.values().forEach { maps[it.value] = it.displayName }
+        return maps
     }
 
     fun getTypeDetailMap(): Map<Long, String> {
         val maps = mutableMapOf<Long, String>()
         TypeConstants.values().forEach { maps[it.value] = it.displayName }
+        return maps
+    }
+
+    /**
+     * モンスター種族の<DB管理値,表示名>のMapを取得
+     */
+    fun getRaceMap(): Map<Long, String> {
+        val maps = mutableMapOf<Long, String>()
+        RaceConstants.values().forEach { maps[it.value] = it.displayName }
         return maps
     }
 
@@ -59,6 +125,22 @@ class SearchForm {
     fun getCardTypeDetailName(type: Long): String {
         val type = TypeConstants.fromValue(type)
         return type?.displayName ?: ""
+    }
+
+    /**
+     * モンスター属性の表示名を取得する
+     */
+    fun getAttributeName(attributeValue: Long): String {
+        val enum = AttributeConstants.fromValue(attributeValue)
+        return enum?.displayName ?: ""
+    }
+
+    /**
+     * モンスター種族の表示名を取得する
+     */
+    fun getRaceDetailName(race: Long): String {
+        val raceConstants = RaceConstants.fromValue(race)
+        return raceConstants?.displayName ?: ""
     }
 
     /**

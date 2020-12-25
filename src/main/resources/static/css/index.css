@@ -6,16 +6,16 @@
     border-color: #3c8dbc;
 }
 
-.card_name {
+.font_size_30 {
     font-size: 30px;
+}
+.font_size_20 {
+    font-size: 20px;
 }
 
 p.card_type {
     font-size: 20px;
     margin: 5px 0 !important;
-}
-.atkdef{
-    font-size: 20px;
 }
 
 #cardDef {
@@ -24,6 +24,10 @@ p.card_type {
 
 p {
     margin: 0 0 0px !important;
+}
+
+.pre-wrap{
+    white-space: pre-wrap;
 }
 
 div.monster_box {

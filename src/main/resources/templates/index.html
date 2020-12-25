@@ -16,11 +16,11 @@
                 </div>
                 <form action="#" th:action="@{/card/search}">
                     <div class="box-body">
-                        <div class="form-group col-lg-4">
+                        <div class="form-group col-lg-3">
                             <label>カード名</label>
                             <input type="text" class="form-control" name="name" th:value="${searchForm.name}" placeholder="例：クリボー">
                         </div>
-                        <div class="form-group col-lg-4">
+                        <div class="form-group col-lg-3">
                             <label>種別</label>
                             <select class="form-control" name="type">
                                 <option th:value="null">選択してください</option>
@@ -28,7 +28,7 @@
                                         th:value="${item.value}" th:text="${item.key}" th:selected="${item.value == searchForm.type}"></option>
                             </select>
                         </div>
-                        <div class="form-group col-lg-4">
+                        <div class="form-group col-lg-3">
                             <label>種別詳細</label>
                             <select class="form-control" name="typeDetail">
                                 <option th:value="null">選択してください</option>
@@ -36,26 +36,47 @@
                                         th:value="${item.key}" th:text="${item.value}" th:selected="${item.key == searchForm.typeDetail}"></option>
                             </select>
                         </div>
-<!--                        <label>モンスター種族</label>-->
-<!--                            <select class="form-control" name="race">-->
-<!--                                <option th:value="null">選択してください</option>-->
-<!--                                <option th:each="item : ${searchForm.getTypeDetailValueList()}"-->
-<!--                                        th:value="${item.key}" th:text="${item.value}" th:selected="${item.key == searchForm.typeDetail}"></option>-->
-<!--                            </select>-->
-<!--                        </div>-->
-                        <div class="form-group col-lg-4">
+                        <div class="form-group col-lg-3">
+                        <label>モンスター種族</label>
+                            <select class="form-control" name="race">
+                                <option th:value="null">選択してください</option>
+                                <option th:each="item : ${searchForm.getRaceMap()}"
+                                        th:value="${item.key}" th:text="${item.value}" th:selected="${item.key == searchForm.race}"></option>
+                            </select>
+                        </div>
+                        <div class="form-group col-lg-3">
+                        <label>モンスター属性</label>
+                            <select class="form-control" name="attribute">
+                                <option th:value="null">選択してください</option>
+                                <option th:each="item : ${searchForm.getAttributeMap()}"
+                                        th:value="${item.key}" th:text="${item.value}" th:selected="${item.key == searchForm.attribute}"></option>
+                            </select>
+                        </div>
+                        <div class="form-group col-lg-3">
                             <label>攻撃力</label>
                             <input type="number" class="form-control" th:value="${searchForm.atk}" name="atk" placeholder="例：3000">
                         </div>
-                        <div class="form-group col-lg-4">
+                        <div class="form-group col-lg-3">
                             <label>守備力</label>
                             <input type="number" class="form-control" th:value="${searchForm.def}" name="def" placeholder="例：2800">
                         </div>
-                        <div class="form-group col-lg-4">
+                        <div class="form-group col-lg-3">
                             <label>攻守合計</label>
                             <input type="number" class="form-control" th:value="${searchForm.sum}" name="sum"  placeholder="例：5500">
                         </div>
-                        <div class="form-group col-lg-12">
+                        <div class="form-group col-lg-2">
+                            <label>レベル/ランク/マーカー</label>
+                            <input type="number" class="form-control" th:value="${searchForm.level}" name="level"  placeholder="例：3">
+                        </div>
+                        <div class="form-group col-lg-2">
+                            <label>レベル/ランク/マーカー：以上</label>
+                            <input type="number" class="form-control" th:value="${searchForm.levelFrom}" name="levelFrom"  placeholder="例：1">
+                        </div>
+                        <div class="form-group col-lg-2">
+                            <label>レベル/ランク/マーカー：以下</label>
+                            <input type="number" class="form-control" th:value="${searchForm.levelTo}" name="levelTo"  placeholder="例：5">
+                        </div>
+                        <div class="form-group col-lg-6">
                             <label>テキスト</label>
                             <input type="text" class="form-control" th:value="${searchForm.description}" name="description"  placeholder="例：フレーバーテキストや効果説明文を記載">
                         </div>
@@ -76,13 +97,15 @@
                         <div class="box-body">
                             <div th:each="card : ${searchForm.cardList}">
                                 <div th:class="'monster_box '+ ${searchForm.getClass(card.type)}">
-                                    <p class="card_name" th:text="${card.name}" style="min-width: 100px;"></p>
+                                    <p class="font_size_30" th:text="${card.name}" style="min-width: 100px;"></p>
                                     <p class="card_type" th:text="${searchForm.getCardTypeDetailName(card.type)}"/>
                                     <div th:if="${searchForm.getTypeString(card.type) == 'モンスター'}">
-                                        <p class="atkdef" th:text="${'ATK/ ' + searchForm.getAtk(card.type,card.atk)}"/>
-                                        <p id="cardDef" class="atkdef" th:text="${'DEF/ ' + searchForm.getDef(card.type,card.def)}"/>
+                                        <p class="card_type" th:text="${searchForm.getRaceDetailName(card.race)+'族 / '+ searchForm.getAttributeName(card.attribute)}"/>
+                                        <p class="card_type" th:text="${'レベル/ランク/マーカー：' + searchForm.getLevelDisplay(card.level)}"/>
+                                        <p class="font_size_20" th:text="${'ATK/ ' + searchForm.getAtk(card.type,card.atk)}"/>
+                                        <p id="cardDef" class="font_size_20" th:text="${'DEF/ ' + searchForm.getDef(card.type,card.def)}"/>
                                     </div>
-                                    <p id="cardDescription" th:text="${card.description}"/>
+                                    <p class="pre-wrap" th:text="${card.description}"/>
                                 </div>
                             </div>
                         </div>
